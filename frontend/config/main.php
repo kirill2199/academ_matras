@@ -55,6 +55,10 @@ return [
             'class' => \yii\gii\Module::class,
             'allowedIPs' => ['127.0.0.1', '::1', '*'], // Убедитесь что ваш IP разрешен
         ],
+        'shop-category' => [
+            'class' => 'frontend\modules\Category\Category',
+            // ... другие настройки модуля ...
+        ],
     ],
     'params' => $params,
     
