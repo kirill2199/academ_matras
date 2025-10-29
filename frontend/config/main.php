@@ -10,7 +10,7 @@ $params = array_merge(
 return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'debug'], // Добавляем debug в bootstrap
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'request' => [
@@ -57,5 +57,5 @@ return [
         ],
     ],
     'params' => $params,
-    'bootstrap' => ['log', 'debug'], // Добавляем debug в bootstrap
+    
 ];

@@ -32,7 +32,7 @@ return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'debug'], // Добавляем debug в bootstrap
     'modules' => [
         'debug' => [
             'class' => \yii\debug\Module::class,
