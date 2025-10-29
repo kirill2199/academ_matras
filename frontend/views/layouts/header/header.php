@@ -20,8 +20,8 @@
             <div class="container">
                 <div class="header-center">
                     <div class="logo">
-                        <a href="index.html">
-                            <img src="assets/images/logos/logo.webp" alt="logo">
+                        <a href="/">
+                            <img src="images/logos/logoV5.png" alt="logo">
                         </a>
                     </div>
                     <div class="header-cart-items">
@@ -226,8 +226,8 @@
                         </svg>
                     </span>
                 </button>
-                <a href="index.html" class="mobile-header-logo">
-                    <img src="assets/images/logos/logo.webp" alt="logo">
+                <a href="/" class="mobile-header-logo">
+                    <img src="images/logos/logoV5.png" alt="logo">
                 </a>
                 <a href="cart.html" class="header-cart cart-item">
                     <span>
@@ -806,11 +806,11 @@
                     <div class="header-nav-menu">
                         <ul class="menu-list">
                             <li>
-                                <a href="index.html">
+                                <a href="/">
                                     <span class="list-text">Home</span>
                                 </a>
                                 <ul class="header-sub-menu">
-                                    <li><a href="index.html">Home-1</a></li>
+                                    <li><a href="/">Home-1</a></li>
                                     <li><a href="home-two.html">Home-2</a></li>
                                     <li><a href="home-three.html">Home-3</a></li>
                                     

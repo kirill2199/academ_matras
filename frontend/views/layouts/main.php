@@ -24,20 +24,12 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body class="d-flex flex-column h-100">
+<body data-aos-easing="ease" data-aos-duration="400" data-aos-delay="0">
 <?php $this->beginBody() ?>
 
 <?= $this->render('header/header')?>
 
-<main role="main" class="flex-shrink-0">
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
-    </div>
-</main>
+ <?= $content ?>
 
 <?= $this->render('footer/footer')?>
 
