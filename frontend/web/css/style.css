@@ -1409,15 +1409,15 @@ button {
 }
 
 .hero-slider-one {
-  background: url("../assets/images/homepage-one/hero-slider-one.webp") no-repeat center/cover;
+  background: url("../images/homepage-one/hero-slider-one.webp") no-repeat center/cover;
 }
 
 .hero-slider-two {
-  background: url("../assets/images/homepage-one/hero-slider-two.webp") no-repeat center/cover;
+  background: url("../images/homepage-one/hero-slider-two.webp") no-repeat center/cover;
 }
 
 .hero-slider-three {
-  background: url("../assets/images/homepage-one/hero-slider-three.webp") no-repeat center/cover;
+  background: url("../images/homepage-one/hero-slider-three.webp") no-repeat center/cover;
 }
 
 @media (max-width:767px) {
@@ -1520,7 +1520,7 @@ button {
   align-items: center;
   justify-content: unset;
   gap: 0px;
-  background: url("../assets/images/homepage-two/h-1.webp");
+  background: url("../images/homepage-two/h-1.webp");
   padding: 0 4.8rem;
 }
 .hero-two .hero-section-two .hero-left .wrapper-content {
@@ -1544,7 +1544,7 @@ button {
   margin-top: 2.5rem;
 }
 .hero-two .hero-section-two .hero-right {
-  background: url("../assets/images/homepage-two/h-2.webp");
+  background: url("../images/homepage-two/h-2.webp");
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -1614,7 +1614,7 @@ button {
   height: 80.3rem;
 }
 .hero-three .hero-wrapper .hero-slider-one {
-  background: url("../assets/images/homepage-three/hero-slide-one.webp") no-repeat center/cover;
+  background: url("../images/homepage-three/hero-slide-one.webp") no-repeat center/cover;
 }
 .hero-three .hero-wrapper .wrapper-subtitle,
 .hero-three .hero-wrapper .wrapper-details {
@@ -1683,7 +1683,7 @@ button {
 }
 
 .wrapper-one {
-  background: url("../assets/images/homepage-one/syle-bg-one.webp") no-repeat center/cover;
+  background: url("../images/homepage-one/syle-bg-one.webp") no-repeat center/cover;
 }
 .wrapper-one .shop-btn {
   padding: 1.2rem 3.4rem;
@@ -1744,7 +1744,7 @@ button {
 }
 
 .wrapper-two {
-  background: url("../assets/images/homepage-one/style-bg-two.webp") no-repeat center/cover;
+  background: url("../images/homepage-one/style-bg-two.webp") no-repeat center/cover;
 }
 .wrapper-two .shop-btn {
   padding: 1.2rem 3.4rem;
@@ -2038,7 +2038,7 @@ button {
 }
 
 .flash .flash-sale {
-  background: url("../assets/images/homepage-one/flash-sale.webp") no-repeat center/cover;
+  background: url("../images/homepage-one/flash-sale.webp") no-repeat center/cover;
   height: 44rem;
   border-radius: 0.5rem;
   padding: 6.5rem;
@@ -2215,7 +2215,7 @@ button {
   padding-top: 6rem;
 }
 .weekly-sale .style-section .wrapper-one {
-  background: url("../assets/images/homepage-one/style-bg-three.webp") no-repeat center/cover;
+  background: url("../images/homepage-one/style-bg-three.webp") no-repeat center/cover;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -2223,7 +2223,7 @@ button {
   gap: 0px;
 }
 .weekly-sale .style-section .wrapper-two {
-  background: url("../assets/images/homepage-one/style-bg-four.webp") no-repeat center/cover;
+  background: url("../images/homepage-one/style-bg-four.webp") no-repeat center/cover;
 }
 @media (max-width:767px) {
   .weekly-sale h5 {
@@ -2288,10 +2288,10 @@ button {
   color: #FFFFFF;
 }
 .weekly-sale-two .style-section-two .wrapper-one {
-  background: url("../assets/images/homepage-two/style-bg-three.webp") no-repeat center/cover;
+  background: url("../images/homepage-two/style-bg-three.webp") no-repeat center/cover;
 }
 .weekly-sale-two .style-section-two .wrapper-two {
-  background: url("../assets/images/homepage-two/style-bg-four.webp") no-repeat center/cover;
+  background: url("../images/homepage-two/style-bg-four.webp") no-repeat center/cover;
 }
 @media (max-width:767px) {
   .weekly-sale-two h5 {
@@ -2309,7 +2309,7 @@ button {
   align-items: center;
   justify-content: center;
   gap: 0px;
-  background: url("../assets/images/homepage-two/discount-bg.webp") no-repeat center/cover;
+  background: url("../images/homepage-two/discount-bg.webp") no-repeat center/cover;
   height: 30.5rem;
   padding: 4.3rem 0;
 }
@@ -2365,10 +2365,10 @@ button {
   color: #232532;
 }
 .weekly-sale-three .style-section-three .wrapper-one {
-  background: url("../assets/images/homepage-three/style-bg-three.webp") no-repeat center/cover;
+  background: url("../images/homepage-three/style-bg-three.webp") no-repeat center/cover;
 }
 .weekly-sale-three .style-section-three .wrapper-two {
-  background: url("../assets/images/homepage-three/style-bg-four.webp") no-repeat center/cover;
+  background: url("../images/homepage-three/style-bg-four.webp") no-repeat center/cover;
 }
 
 .discount-two {
@@ -2419,7 +2419,7 @@ button {
 }
 
 .footer {
-  background: url("../assets/images/homepage-one/footer-bg.webp");
+  background: url("../images/homepage-one/footer-bg.webp");
   font-family: "League Spartan", sans-serif;
 }
 
@@ -2978,7 +2978,7 @@ hr {
 }
 
 .sidebar-shop-section {
-  background: url("../assets/images/homepage-one/sidebar-img.png");
+  background: url("../images/homepage-one/sidebar-img.png");
   padding: 3rem;
   margin-top: 3rem;
   height: 29.5rem;
@@ -3058,7 +3058,7 @@ hr {
   align-items: center;
   justify-content: center;
   gap: 2rem;
-  background: url("../assets/images/homepage-one/product-deal-.webp") no-repeat center/cover;
+  background: url("../images/homepage-one/product-deal-.webp") no-repeat center/cover;
 }
 .product-deal-section .wrapper-heading {
   color: #FFFFFF;
@@ -3403,7 +3403,7 @@ hr {
   color: #5aa2d1;
 }
 .blog-post-section .newsletter {
-  background: url("../assets/images/homepage-one/newsletter.webp") no-repeat center/cover;
+  background: url("../images/homepage-one/newsletter.webp") no-repeat center/cover;
 }
 .blog-post-section .newsletter .post-details,
 .blog-post-section .newsletter .blog-paragraph {
@@ -3782,7 +3782,7 @@ table .ticket-row:hover {
 }
 
 .login {
-  background: url("../assets/images/homepage-one/login-bg.webp") no-repeat center/cover;
+  background: url("../images/homepage-one/login-bg.webp") no-repeat center/cover;
 }
 
 .login-section {
@@ -3976,7 +3976,7 @@ table .ticket-row:hover {
 }
 
 .seller-wrapper {
-  background: url("../assets/images/homepage-one/sallers-cover.png") no-repeat center/cover;
+  background: url("../images/homepage-one/sallers-cover.png") no-repeat center/cover;
   min-height: 32.8rem;
   padding: 2.5rem;
   border-radius: 0.5rem;
@@ -5173,4 +5173,4 @@ table .ticket-row:hover {
 }
 .user-dashboard .nav-content .modal-wrapper.active {
   display: flex;
-}/*# sourceMappingURL=style.css.map */
+}
