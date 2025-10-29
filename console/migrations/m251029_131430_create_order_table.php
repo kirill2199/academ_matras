@@ -49,11 +49,11 @@ class m251029_131430_create_order_table extends Migration
             'admin_comment' => $this->text(),
             
             // Временные метки
-            'created_at' => $this->integer()->notNull(),
-            'updated_at' => $this->integer()->notNull(),
-            'paid_at' => $this->integer(),
-            'completed_at' => $this->integer(),
-            'cancelled_at' => $this->integer(),
+            'created_at' => $this->datetime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
+            'updated_at' => $this->datetime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
+            'paid_at' => $this->datetime(),
+            'completed_at' => $this->datetime(),
+            'cancelled_at' => $this->datetime(),
             
             // Дополнительная информация
             'ip_address' => $this->string(45),

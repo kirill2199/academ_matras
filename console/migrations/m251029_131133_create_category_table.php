@@ -24,8 +24,8 @@ class m251029_131133_create_category_table extends Migration
             'image' => $this->string(500),
             'sort_order' => $this->integer()->defaultValue(0),
             'status' => $this->smallInteger()->defaultValue(1),
-            'created_at' => $this->integer()->notNull(),
-            'updated_at' => $this->integer()->notNull(),
+            'created_at' => $this->datetime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
+            'updated_at' => $this->datetime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
         ]);
 
         // Индексы

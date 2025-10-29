@@ -23,7 +23,7 @@ class m251029_131459_create_order_item_table extends Migration
             'total' => $this->decimal(10, 2)->notNull(), // общая стоимость
             'weight' => $this->decimal(8, 3),
             'attributes' => $this->text(), // JSON с характеристиками на момент заказа
-            'created_at' => $this->integer()->notNull(),
+            'created_at' => $this->datetime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
         ]);
 
         // Индексы

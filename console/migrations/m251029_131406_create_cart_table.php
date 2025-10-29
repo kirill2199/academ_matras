@@ -20,8 +20,8 @@ class m251029_131406_create_cart_table extends Migration
             'quantity' => $this->integer()->notNull()->defaultValue(1),
             'price' => $this->decimal(10, 2),
             'attributes' => $this->text(), // JSON с выбранными атрибутами
-            'created_at' => $this->integer()->notNull(),
-            'updated_at' => $this->integer()->notNull(),
+            'created_at' => $this->datetime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
+            'updated_at' => $this->datetime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
         ]);
 
         // Индексы

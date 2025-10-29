@@ -22,8 +22,8 @@ class m251029_131212_create_characteristic_table extends Migration
             'variants' => $this->text(), // JSON с вариантами для select типа
             'category_id' => $this->integer(),
             'filterable' => $this->boolean()->defaultValue(false),
-            'created_at' => $this->integer()->notNull(),
-            'updated_at' => $this->integer()->notNull(),
+            'created_at' => $this->datetime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
+            'updated_at' => $this->datetime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
         ]);
 
         // Индексы

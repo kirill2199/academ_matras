@@ -54,9 +54,9 @@ class m251029_131251_create_product_table extends Migration
             'min_order_quantity' => $this->integer()->defaultValue(1),
             'max_order_quantity' => $this->integer(),
             'step_order_quantity' => $this->integer()->defaultValue(1),
-            'created_at' => $this->integer()->notNull(),
-            'updated_at' => $this->integer()->notNull(),
-            'published_at' => $this->integer(),
+            'created_at' => $this->datetime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
+            'updated_at' => $this->datetime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
+            'published_at' => $this->datetime()->null(),
         ]);
 
         // Индексы
