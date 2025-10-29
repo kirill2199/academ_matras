@@ -36,14 +36,20 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
+    
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                // Правила для модулей
+                '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
+
+                // Правила для контроллеров
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+
             ],
         ],
-        */
+       
     ],
     'params' => $params,
 ];
