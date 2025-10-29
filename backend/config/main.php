@@ -33,10 +33,20 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'modules' => [
+        'debug' => [
+            'class' => \yii\debug\Module::class,
+            'allowedIPs' => ['127.0.0.1', '::1', '*'], // Убедитесь что ваш IP разрешен
+        ],
+        'gii' => [
+            'class' => \yii\gii\Module::class,
+            'allowedIPs' => ['127.0.0.1', '::1', '*'], // Убедитесь что ваш IP разрешен
+        ],
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
+            'cookieValidationKey' => 'DYsfgi7TbaKxJJ9Xz5jGPF41YvICLYLf',
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -66,7 +76,7 @@ return [
         //         ],
         //     ],
         // ],
-       'urlManager' => [
+        'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [

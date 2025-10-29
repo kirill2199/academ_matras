@@ -1,4 +1,5 @@
 <?php
+
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
     require __DIR__ . '/../../common/config/params-local.php',
@@ -14,6 +15,7 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
+            'cookieValidationKey' => 'DYsfgi7TbaKxJJ9Xz5jGPF41YvICLYLf',
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -21,7 +23,6 @@ return [
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
         ],
         'session' => [
-            // this is the name of the session cookie used for login on the frontend
             'name' => 'advanced-frontend',
         ],
         'log' => [
@@ -36,20 +37,25 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-    
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                // Правила для модулей
                 '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
-
-                // Правила для контроллеров
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
-
             ],
         ],
-       
+    ],
+    'modules' => [
+        'debug' => [
+            'class' => \yii\debug\Module::class,
+            'allowedIPs' => ['127.0.0.1', '::1', '*'], // Убедитесь что ваш IP разрешен
+        ],
+        'gii' => [
+            'class' => \yii\gii\Module::class,
+            'allowedIPs' => ['127.0.0.1', '::1', '*'], // Убедитесь что ваш IP разрешен
+        ],
     ],
     'params' => $params,
+    'bootstrap' => ['log', 'debug'], // Добавляем debug в bootstrap
 ];
