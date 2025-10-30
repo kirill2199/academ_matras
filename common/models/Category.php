@@ -131,4 +131,176 @@ class Category extends \yii\db\ActiveRecord
         return $this->hasMany(Product::class, ['category_id' => 'id']);
     }
 
+    /**
+     * Получает меню категорий в виде HTML
+     */
+    public static function getCategoryMenu()
+    {
+        $categories = self::find()
+            ->where(['status' => 1])
+            ->andWhere(['parent_id' => null]) // Используем поле parent_id из таблицы category
+            ->orderBy(['sort_order' => SORT_ASC, 'name' => SORT_ASC])
+            ->all();
+
+        return self::renderCategoryMenu($categories);
+    }
+
+    /**
+     * Рендерит меню категорий в HTML
+     */
+    private static function renderCategoryMenu($categories)
+    {
+        if (empty($categories)) {
+            return '';
+        }
+
+        $html = '<ul class="category-list">';
+
+        foreach ($categories as $category) {
+            $hasChildren = self::find()
+                ->where(['parent_id' => $category->id, 'status' => 1])
+                ->exists();
+
+            $url = self::getCategoryUrl($category);
+
+            $html .= '<li class="category-list-item">';
+            $html .= '<a href="' . $url . '">';
+            $html .= '<div class="dropdown-item">';
+            $html .= '<div class="dropdown-list-item">';
+
+            // Изображение категории
+            $html .= '<span class="dropdown-img">';
+            if ($category->image) {
+                $html .= '<img src="' . htmlspecialchars($category->getImageUrl()) . '" alt="' . htmlspecialchars($category->name) . '">';
+            } else {
+                $html .= '<img src="/images/placeholder-category.jpg" alt="' . htmlspecialchars($category->name) . '">';
+            }
+            $html .= '</span>';
+
+            // Название категории
+            $html .= '<span class="dropdown-text">';
+            $html .= htmlspecialchars($category->name);
+            $html .= '</span>';
+
+            $html .= '</div>'; // .dropdown-list-item
+
+            // Иконка стрелки если есть подкатегории
+            if ($hasChildren) {
+                $html .= '<div class="drop-down-list-icon">';
+                $html .= '<span>';
+                $html .= '<svg width="6" height="9" viewBox="0 0 6 9" fill="none" xmlns="http://www.w3.org/2000/svg">';
+                $html .= '<rect x="1.5" y="0.818359" width="5.78538" height="1.28564" transform="rotate(45 1.5 0.818359)" fill="#1D1D1D"></rect>';
+                $html .= '<rect x="5.58984" y="4.90918" width="5.78538" height="1.28564" transform="rotate(135 5.58984 4.90918)" fill="#1D1D1D"></rect>';
+                $html .= '</svg>';
+                $html .= '</span>';
+                $html .= '</div>'; // .drop-down-list-icon
+            }
+
+            $html .= '</div>'; // .dropdown-item
+            $html .= '</a>';
+
+            // Рекурсивно рендерим подкатегории если есть
+            if ($hasChildren) {
+                $childCategories = self::find()
+                    ->where(['parent_id' => $category->id, 'status' => 1])
+                    ->orderBy(['sort_order' => SORT_ASC, 'name' => SORT_ASC])
+                    ->all();
+                $html .= self::renderSubCategoryMenu($childCategories);
+            }
+
+            $html .= '</li>'; // .category-list-item
+        }
+
+        $html .= '</ul>'; // .category-list
+
+        return $html;
+    }
+
+    /**
+     * Рендерит подменю категорий
+     */
+    private static function renderSubCategoryMenu($categories)
+    {
+        if (empty($categories)) {
+            return '';
+        }
+
+        $html = '<ul class="category-sub-menu">';
+
+        foreach ($categories as $category) {
+            $hasChildren = self::find()
+                ->where(['parent_id' => $category->id, 'status' => 1])
+                ->exists();
+
+            $url = self::getCategoryUrl($category);
+
+            $html .= '<li class="category-sub-item">';
+            $html .= '<a href="' . $url . '">';
+            $html .= '<div class="dropdown-list-item">';
+
+            // Изображение подкатегории
+            $html .= '<span class="dropdown-img">';
+            if ($category->image) {
+                $html .= '<img src="' . htmlspecialchars($category->getImageUrl()) . '" alt="' . htmlspecialchars($category->name) . '">';
+            } else {
+                $html .= '<img src="/images/placeholder-category.jpg" alt="' . htmlspecialchars($category->name) . '">';
+            }
+            $html .= '</span>';
+
+            // Название подкатегории
+            $html .= '<span class="dropdown-text">';
+            $html .= htmlspecialchars($category->name);
+            $html .= '</span>';
+
+            $html .= '</div>'; // .dropdown-list-item
+
+            // Иконка стрелки если есть вложенные подкатегории
+            if ($hasChildren) {
+                $html .= '<div class="drop-down-list-icon">';
+                $html .= '<span>';
+                $html .= '<svg width="6" height="9" viewBox="0 0 6 9" fill="none" xmlns="http://www.w3.org/2000/svg">';
+                $html .= '<rect x="1.5" y="0.818359" width="5.78538" height="1.28564" transform="rotate(45 1.5 0.818359)" fill="#1D1D1D"></rect>';
+                $html .= '<rect x="5.58984" y="4.90918" width="5.78538" height="1.28564" transform="rotate(135 5.58984 4.90918)" fill="#1D1D1D"></rect>';
+                $html .= '</svg>';
+                $html .= '</span>';
+                $html .= '</div>'; // .drop-down-list-icon
+            }
+
+            $html .= '</a>';
+
+            // Рекурсивно рендерим вложенные подкатегории
+            if ($hasChildren) {
+                $childCategories = self::find()
+                    ->where(['parent_id' => $category->id, 'status' => 1])
+                    ->orderBy(['sort_order' => SORT_ASC, 'name' => SORT_ASC])
+                    ->all();
+                $html .= self::renderSubCategoryMenu($childCategories);
+            }
+
+            $html .= '</li>'; // .category-sub-item
+        }
+
+        $html .= '</ul>'; // .category-sub-menu
+
+        return $html;
+    }
+
+    /**
+     * Генерирует URL для категории
+     */
+    private static function getCategoryUrl($category)
+    {
+        return Yii::$app->urlManager->createUrl(['/product/category', 'slug' => $category->slug]);
+    }
+
+    /**
+     * Получает URL изображения категории
+     */
+    public function getImageUrl()
+    {
+        if ($this->image) {
+            return Yii::getAlias('@web/uploads/categories/') . $this->image;
+        }
+        return Yii::getAlias('@web/images/placeholder-category.jpg');
+    }
 }
