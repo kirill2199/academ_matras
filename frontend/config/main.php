@@ -63,11 +63,16 @@ return [
             'class' => 'frontend\modules\Product\Product',
             // ... другие настройки модуля ...
         ],
+        'shop-cart' => [
+            'class' => 'frontend\modules\Cart\Cart',
+            'controllerNamespace' => 'frontend\modules\Cart\controllers', // явно укажите namespace
+        ],
         'shop' => [
             'class' => 'frontend\modules\Shop\Shop',
             // ... другие настройки модуля ...
         ],
+
     ],
     'params' => $params,
-    
+
 ];

@@ -121,13 +121,9 @@ use frontend\helpers\ShopHelpers;
                         <div class="product-quantity">
                             <div class="quantity-wrapper">
                                 <div class="quantity">
-                                    <span class="minus">
-                                        -
-                                    </span>
+                                    <span class="minus">-</span>
                                     <span class="number">1</span>
-                                    <span class="plus">
-                                        +
-                                    </span>
+                                    <span class="plus">+</span>
                                 </div>
                                 <div class="wishlist">
                                     <a href="/add-wish-list/?id=<?= $productArray['id'] ?>">
@@ -143,7 +139,7 @@ use frontend\helpers\ShopHelpers;
                                     </a>
                                 </div>
                             </div>
-                            <a href="/add-cart/?id=<?= $productArray['id'] ?>" class="shop-btn">
+                            <button class="shop-btn" data-product-id="<?= $productArray['id'] ?>">
                                 <span>
                                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -153,8 +149,151 @@ use frontend\helpers\ShopHelpers;
                                     </svg>
                                 </span>
                                 <span>Добавить в корзину</span>
-                            </a>
+                            </button>
                         </div>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function () {
+                                // Обработчики для кнопок +/-
+                                const quantityControls = document.querySelectorAll('.quantity');
+
+                                quantityControls.forEach(control => {
+                                    const minus = control.querySelector('.minus');
+                                    const plus = control.querySelector('.plus');
+                                    const number = control.querySelector('.number');
+
+                                    minus.addEventListener('click', function () {
+                                        let currentValue = parseInt(number.textContent);
+                                        if (currentValue > 1) {
+                                            number.textContent = currentValue - 1;
+                                        }
+                                    });
+
+                                    plus.addEventListener('click', function () {
+                                        let currentValue = parseInt(number.textContent);
+                                        number.textContent = currentValue + 1;
+                                    });
+                                });
+
+                                // Обработчик для кнопки "Добавить в корзину"
+                                const addToCartButtons = document.querySelectorAll('.shop-btn');
+
+                                addToCartButtons.forEach(button => {
+                                    button.addEventListener('click', function (e) {
+                                        e.preventDefault();
+
+                                        // Находим ближайший контейнер с количеством
+                                        const quantityWrapper = this.closest('.product-quantity');
+
+                                        // Проверяем, найден ли элемент
+                                        if (!quantityWrapper) {
+                                            console.error('Не найден контейнер .product-quantity');
+                                            return;
+                                        }
+
+                                        const quantityElement = quantityWrapper.querySelector('.number');
+                                        const quantity = parseInt(quantityElement.textContent);
+
+                                        // Получаем ID продукта из data-атрибута
+                                        const productId = this.getAttribute('data-product-id');
+
+                                        if (!productId) {
+                                            console.error('Не найден data-product-id');
+                                            return;
+                                        }
+
+                                        // Добавляем товар в корзину
+                                        addToCart(productId, quantity, this);
+                                    });
+                                });
+
+                                // Функция добавления в корзину через AJAX
+                                function addToCart(productId, quantity, button) {
+                                    // Показываем индикатор загрузки
+                                    const originalText = button.innerHTML;
+                                    button.innerHTML = '<span>Добавление...</span>';
+                                    button.disabled = true;
+
+                                    // Отправляем AJAX запрос
+                                    fetch('/shop-cart/default/add', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'X-CSRF-Token': getCsrfToken()
+                                        },
+                                        body: JSON.stringify({
+                                            product_id: productId,
+                                            quantity: quantity
+                                        })
+                                    })
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            if (data.success) {
+                                                showSuccessMessage('Товар добавлен в корзину');
+                                                updateCartCounter(data.cartCount);
+                                                updateMiniCart();
+                                            } else {
+                                                showErrorMessage(data.message || 'Ошибка при добавлении товара');
+                                            }
+                                        })
+                                        .catch(error => {
+                                            console.error('Error:', error);
+                                            showErrorMessage('Произошла ошибка при добавлении товара');
+                                        })
+                                        .finally(() => {
+                                            // Восстанавливаем кнопку
+                                            button.innerHTML = originalText;
+                                            button.disabled = false;
+                                        });
+                                }
+
+                                // Функция для получения CSRF токена
+                                function getCsrfToken() {
+                                    return document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+                                }
+
+                                // Функция показа сообщения об успехе
+                                function showSuccessMessage(message) {
+                                    if (typeof Toast !== 'undefined') {
+                                        Toast.success(message);
+                                    } else {
+                                        alert(message);
+                                    }
+                                }
+
+                                // Функция показа сообщения об ошибке
+                                function showErrorMessage(message) {
+                                    if (typeof Toast !== 'undefined') {
+                                        Toast.error(message);
+                                    } else {
+                                        alert(message);
+                                    }
+                                }
+
+                                // Функция обновления счетчика корзины
+                                function updateCartCounter(count) {
+                                    const cartCounter = document.querySelector('.cart-count, .header-cart-count');
+                                    if (cartCounter) {
+                                        cartCounter.textContent = count;
+                                        cartCounter.style.display = count > 0 ? 'flex' : 'none';
+                                    }
+                                }
+
+                                // Функция обновления мини-корзины
+                                function updateMiniCart() {
+                                    fetch('/cart/mini-cart')
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            if (data.success) {
+                                                const miniCart = document.querySelector('.mini-cart, .cart-dropdown');
+                                                if (miniCart) {
+                                                    miniCart.innerHTML = data.html;
+                                                }
+                                            }
+                                        })
+                                        .catch(error => console.error('Error updating mini cart:', error));
+                                }
+                            });
+                        </script>
                         <hr>
                     </div>
                 </div>

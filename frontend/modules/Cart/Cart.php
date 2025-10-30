@@ -3,7 +3,7 @@
 namespace frontend\modules\Cart;
 
 /**
- * shop-cart module definition class
+ * Cart module definition class
  */
 class Cart extends \yii\base\Module
 {
