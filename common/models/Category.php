@@ -243,7 +243,7 @@ class Category extends \yii\db\ActiveRecord
             if ($category->image) {
                 $html .= '<img src="' . htmlspecialchars($category->getImageUrl()) . '" alt="' . htmlspecialchars($category->name) . '">';
             } else {
-                $html .= '<img src="/images/placeholder-category.jpg" alt="' . htmlspecialchars($category->name) . '">';
+                $html .= '<img src="/images/placeholder-category.jpg" alt="' . htmlspecialchars($category->name) . ' style={width:20%}">';
             }
             $html .= '</span>';
 
