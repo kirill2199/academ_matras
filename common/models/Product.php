@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use \frontend\modules\Cart\models\Cart;
 
 /**
  * This is the model class for table "product".
