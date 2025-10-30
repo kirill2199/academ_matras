@@ -960,7 +960,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="/shop-product/default/index">
+                            <a href="/shop/default/index">
                                 <span class="list-text">Products</span>
                             </a>
                         </li>

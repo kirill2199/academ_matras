@@ -63,6 +63,10 @@ return [
             'class' => 'frontend\modules\Product\Product',
             // ... другие настройки модуля ...
         ],
+        'shop' => [
+            'class' => 'frontend\modules\Shop\Shop',
+            // ... другие настройки модуля ...
+        ],
     ],
     'params' => $params,
     
