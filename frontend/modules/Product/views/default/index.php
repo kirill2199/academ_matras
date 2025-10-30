@@ -1,7 +1,8 @@
-<?php 
+<?php
 
 use common\models\Product;
 use yii\helpers\Html;
+use frontend\helpers\ShopHelpers;
 
 // dd($productArray);
 ?>
@@ -16,74 +17,79 @@ use yii\helpers\Html;
             <span class="devider">/</span>
             <span><a href="/shop/default/index">Shop</a></span>
             <span class="devider">/</span>
-            <span><a href="/shop-product/default/index?slug=<?=$productArray["slug"]?>"><?=$productArray['name']?></a></span>
+            <span><a
+                    href="/shop-product/default/index?slug=<?= $productArray["slug"] ?>"><?= $productArray['name'] ?></a></span>
         </div>
         <div class="product-info-section">
             <div class="row ">
                 <div class="col-md-6">
                     <div class="product-info-img aos-init aos-animate" data-aos="fade-right">
-                        <div class="swiper product-top swiper-initialized swiper-horizontal swiper-backface-hidden">                            
-    <div class="swiper-wrapper" id="swiper-wrapper-cf4adff28d1c4a08" aria-live="polite">
-        <?php foreach ($productArray['images'] as $index => $image): ?>
-            <?= Html::tag('div', 
-                Html::img($image, ['alt' => 'img']),
-                [
-                    'class' => 'swiper-slide slider-top-img' . 
-                              ($index === 0 ? ' swiper-slide-active' : '') . 
-                              ($index === 1 ? ' swiper-slide-next' : ''),
-                    'role' => 'group',
-                    'aria-label' => ($index + 1) . ' / ' . count($productArray['images']),
-                    'data-swiper-slide-index' => $index,
-                    'style' => 'width: 537px; margin-right: 10px;'
-                ]
-            ) ?>
-        <?php endforeach; ?>
-    </div>
-    <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
-</div>
+                        <div class="swiper product-top swiper-initialized swiper-horizontal swiper-backface-hidden">
+                            <div class="swiper-wrapper" id="swiper-wrapper-cf4adff28d1c4a08" aria-live="polite">
+                                <?php foreach ($productArray['images'] as $index => $image): ?>
+                                    <?= Html::tag(
+                                        'div',
+                                        Html::img($image, ['alt' => 'img']),
+                                        [
+                                            'class' => 'swiper-slide slider-top-img' .
+                                                ($index === 0 ? ' swiper-slide-active' : '') .
+                                                ($index === 1 ? ' swiper-slide-next' : ''),
+                                            'role' => 'group',
+                                            'aria-label' => ($index + 1) . ' / ' . count($productArray['images']),
+                                            'data-swiper-slide-index' => $index,
+                                            'style' => 'width: 537px; margin-right: 10px;'
+                                        ]
+                                    ) ?>
+                                <?php endforeach; ?>
+                            </div>
+                            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                        </div>
 
-<div class="swiper product-bottom swiper-initialized swiper-horizontal swiper-backface-hidden swiper-thumbs">
-    <div class="swiper-wrapper" id="swiper-wrapper-1d91010349a8443387" aria-live="polite"
-         style="transform: translate3d(0px, 0px, 0px);">
-        <?php foreach ($productArray['images'] as $index => $image): ?>
-            <?= Html::tag('div', 
-                Html::img($image, ['alt' => 'img']),
-                [
-                    'class' => 'swiper-slide slider-bottom-img swiper-slide-visible' . 
-                              ($index === 0 ? ' swiper-slide-active swiper-slide-thumb-active' : '') . 
-                              ($index === 1 ? ' swiper-slide-next' : ''),
-                    'role' => 'group',
-                    'aria-label' => ($index + 1) . ' / ' . count($productArray['images']),
-                    'data-swiper-slide-index' => $index,
-                    'style' => 'width: 127.25px; margin-right: 10px;'
-                ]
-            ) ?>
-        <?php endforeach; ?>
-    </div>
-    <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
-</div>
+                        <div
+                            class="swiper product-bottom swiper-initialized swiper-horizontal swiper-backface-hidden swiper-thumbs">
+                            <div class="swiper-wrapper" id="swiper-wrapper-1d91010349a8443387" aria-live="polite"
+                                style="transform: translate3d(0px, 0px, 0px);">
+                                <?php foreach ($productArray['images'] as $index => $image): ?>
+                                    <?= Html::tag(
+                                        'div',
+                                        Html::img($image, ['alt' => 'img']),
+                                        [
+                                            'class' => 'swiper-slide slider-bottom-img swiper-slide-visible' .
+                                                ($index === 0 ? ' swiper-slide-active swiper-slide-thumb-active' : '') .
+                                                ($index === 1 ? ' swiper-slide-next' : ''),
+                                            'role' => 'group',
+                                            'aria-label' => ($index + 1) . ' / ' . count($productArray['images']),
+                                            'data-swiper-slide-index' => $index,
+                                            'style' => 'width: 127.25px; margin-right: 10px;'
+                                        ]
+                                    ) ?>
+                                <?php endforeach; ?>
+                            </div>
+                            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="product-info-content aos-init aos-animate" data-aos="fade-left">
-                        <span class="wrapper-subtitle"><?=$productArray['brand']?></span>
-                        <h5><?=$productArray['name']?>
+                        <span class="wrapper-subtitle"><?= $productArray['brand'] ?></span>
+                        <h5><?= $productArray['name'] ?>
                         </h5>
                         <div class="ratings">
                             <span>
-                                <?=$productArray['rating']?>
+                                <?= $productArray['rating'] ?>
                             </span>
-                            <span class="text">Кол-во просмотров: <?=$productArray['views_count']?></span>
+                            <span class="text">Кол-во просмотров: <?= $productArray['views_count'] ?></span>
                         </div>
                         <div class="price">
-                            <span class="price-cut"><?=$productArray['old_price']?></span>
-                            <span class="new-price"><?=$productArray['price']?></span>
+                            <span class="price-cut"><?= $productArray['old_price'] ?></span>
+                            <span class="new-price"><?= $productArray['price'] ?></span>
                         </div>
                         <div class="product-details">
-                            <p class="category">Категория : <span class="inner-text"><?=$productArray['category_name']?></span></p>
-                            <p class="sku">SKU : <span class="inner-text"><?=$productArray['sku']?></span></p>
+                            <p class="category">Категория : <span
+                                    class="inner-text"><?= $productArray['category_name'] ?></span></p>
+                            <p class="sku">SKU : <span class="inner-text"><?= $productArray['sku'] ?></span></p>
                         </div>
-                        <p class="content-paragraph"><?=$productArray['short_description']?></span></p>
+                        <p class="content-paragraph"><?= $productArray['short_description'] ?></span></p>
                         <hr>
                         <div class="product-availability">
                             <span>Availabillity : </span>
@@ -105,11 +111,11 @@ use yii\helpers\Html;
                                 </div>
                             </div>
                             <ul class="size-option">
-                                <?php foreach ($productArray['filter'] as $key => $value):?>
-                                <li class="option">
-                                    <span class="option-measure"><?=(string) $value?></span>
-                                </li>
-                                <?php endforeach?>
+                                <?php foreach ($productArray['filter'] as $key => $value): ?>
+                                    <li class="option">
+                                        <span class="option-measure"><?= (string) $value ?></span>
+                                    </li>
+                                <?php endforeach ?>
                             </ul>
                         </div>
                         <div class="product-quantity">
@@ -124,18 +130,20 @@ use yii\helpers\Html;
                                     </span>
                                 </div>
                                 <div class="wishlist">
-                                    <span>
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M17 1C14.9 1 13.1 2.1 12 3.7C10.9 2.1 9.1 1 7 1C3.7 1 1 3.7 1 7C1 13 12 22 12 22C12 22 23 13 23 7C23 3.7 20.3 1 17 1Z"
-                                                stroke="#797979" stroke-width="2" stroke-miterlimit="10"
-                                                stroke-linecap="square"></path>
-                                        </svg>
-                                    </span>
+                                    <a href="/add-wish-list/?id=<?= $productArray['id'] ?>">
+                                        <span>
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M17 1C14.9 1 13.1 2.1 12 3.7C10.9 2.1 9.1 1 7 1C3.7 1 1 3.7 1 7C1 13 12 22 12 22C12 22 23 13 23 7C23 3.7 20.3 1 17 1Z"
+                                                    stroke="#797979" stroke-width="2" stroke-miterlimit="10"
+                                                    stroke-linecap="square"></path>
+                                            </svg>
+                                        </span>
+                                    </a>
                                 </div>
                             </div>
-                            <a href="#" class="shop-btn">
+                            <a href="/add-cart/?id=<?= $productArray['id'] ?>" class="shop-btn">
                                 <span>
                                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -144,11 +152,9 @@ use yii\helpers\Html;
                                             fill="white"></path>
                                     </svg>
                                 </span>
-                                <span>Add to Cart</span>
+                                <span>Добавить в корзину</span>
                             </a>
                         </div>
-                        <hr>
-                        
                         <hr>
                     </div>
                 </div>
@@ -157,41 +163,47 @@ use yii\helpers\Html;
     </div>
 </section>
 <section class="product product-description">
-        <div class="container">
-            <div class="product-detail-section">
-                <nav>
-                    <div class="nav nav-tabs nav-item" id="nav-tab" role="tablist">
-                        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Описание</button>
-                        <button class="nav-link" id="nav-review-tab" data-bs-toggle="tab" data-bs-target="#nav-review" type="button" role="tab" aria-controls="nav-review" aria-selected="false" tabindex="-1">Отзывы</button>
-                    </div>
-                </nav>
-                <div class="tab-content tab-item" id="nav-tabContent">
+    <div class="container">
+        <div class="product-detail-section">
+            <nav>
+                <div class="nav nav-tabs nav-item" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
+                        type="button" role="tab" aria-controls="nav-home" aria-selected="true">Описание</button>
+                    <button class="nav-link" id="nav-review-tab" data-bs-toggle="tab" data-bs-target="#nav-review"
+                        type="button" role="tab" aria-controls="nav-review" aria-selected="false"
+                        tabindex="-1">Отзывы</button>
+                </div>
+            </nav>
+            <div class="tab-content tab-item" id="nav-tabContent">
 
-                    <div class="tab-pane fade show active aos-init aos-animate" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0" data-aos="fade-up">
-                        <div class="product-intro-section">
-                            <h5 class="intro-heading">Introduction</h5>
-                            <p class="product-details">
-                                <?=$productArray['description']?>
-                            </p>
-                        </div>
-                        <div class="product-feature">
-                            <h5 class="intro-heading">Features :</h5>
-                            <ul>
-                                <?php $arrayProver = ['weight', 'length', 'height', 'width']; 
-                                foreach ($productArray as $key => $value){
-                                    if (in_array($key, $arrayProver)){
-                                ?>
-                                <li>
-                                    <p><?=$productArray['attributeLabels'][$key]?> : <?= $value?></p>
-                                </li>
-                                <?php }}?>
-                            </ul>
-                        </div>
+                <div class="tab-pane fade show active aos-init aos-animate" id="nav-home" role="tabpanel"
+                    aria-labelledby="nav-home-tab" tabindex="0" data-aos="fade-up">
+                    <div class="product-intro-section">
+                        <h5 class="intro-heading">Introduction</h5>
+                        <p class="product-details">
+                            <?= $productArray['description'] ?>
+                        </p>
                     </div>
-                    <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab" tabindex="0">
-                        <div class="product-review-section aos-init aos-animate" data-aos="fade-up">
-                            <h5 class="intro-heading">Reviews</h5>
-
+                    <div class="product-feature">
+                        <h5 class="intro-heading">Features :</h5>
+                        <ul>
+                            <?php $arrayProver = ['weight', 'length', 'height', 'width'];
+                            foreach ($productArray as $key => $value) {
+                                if (in_array($key, $arrayProver)) {
+                                    ?>
+                                    <li>
+                                        <p><?= $productArray['attributeLabels'][$key] ?> : <?= $value ?></p>
+                                    </li>
+                                <?php }
+                            } ?>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab"
+                    tabindex="0">
+                    <div class="product-review-section aos-init aos-animate" data-aos="fade-up">
+                        <h5 class="intro-heading">Reviews</h5>
+                        <?php foreach ($productArray['reviews'] as $modelReview): ?>
                             <div class="review-wrapper">
                                 <div class="wrapper">
                                     <div class="wrapper-aurthor">
@@ -200,36 +212,27 @@ use yii\helpers\Html;
                                                 <img src="assets/images/homepage-one/aurthor-img-1.webp" alt="aurthor-img">
                                             </div>
                                             <div class="author-details">
-                                                <h5>Sajjad Hossain</h5>
-                                                <p>London, UK</p>
+                                                <h5><?= $modelReview->user_name ?></h5>
+                                                <p><?= $modelReview->ip_address ?></p>
                                             </div>
                                         </div>
                                         <div class="ratings">
-                                            <span>
-                                                <svg width="75" height="15" viewBox="0 0 75 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M7.5 0L9.18386 5.18237H14.6329L10.2245 8.38525L11.9084 13.5676L7.5 10.3647L3.09161 13.5676L4.77547 8.38525L0.367076 5.18237H5.81614L7.5 0Z" fill="#FFA800"></path>
-                                                    <path d="M22.5 0L24.1839 5.18237H29.6329L25.2245 8.38525L26.9084 13.5676L22.5 10.3647L18.0916 13.5676L19.7755 8.38525L15.3671 5.18237H20.8161L22.5 0Z" fill="#FFA800"></path>
-                                                    <path d="M37.5 0L39.1839 5.18237H44.6329L40.2245 8.38525L41.9084 13.5676L37.5 10.3647L33.0916 13.5676L34.7755 8.38525L30.3671 5.18237H35.8161L37.5 0Z" fill="#FFA800"></path>
-                                                    <path d="M52.5 0L54.1839 5.18237H59.6329L55.2245 8.38525L56.9084 13.5676L52.5 10.3647L48.0916 13.5676L49.7755 8.38525L45.3671 5.18237H50.8161L52.5 0Z" fill="#FFA800"></path>
-                                                    <path d="M67.5 0L69.1839 5.18237H74.6329L70.2245 8.38525L71.9084 13.5676L67.5 10.3647L63.0916 13.5676L64.7755 8.38525L60.3671 5.18237H65.8161L67.5 0Z" fill="#FFA800"></path>
-                                                </svg>
-                                            </span>
-                                            <span>(5.0)</span>
+
+                                            <?= ShopHelpers::renderRatingStars($modelReview->rating) ?>
+
+                                            <span>(<?= $modelReview->rating ?>)</span>
                                         </div>
                                     </div>
                                     <div class="wrapper-description">
-                                        <p class="wrapper-details">Lorem Ipsum is simply dummy text of the printing and
-                                            typesetting industry. Lorem Ipsum has been the industry's standard dummy
-                                            text ever since the redi 1500s, when an unknown printer took a galley of
-                                            type and scrambled it to make a type specimen book. It has survived not only
-                                            five centuries but also the on leap into electronic typesetting, remaining
+                                        <p class="wrapper-details"><?= $modelReview->comment ?>
                                         </p>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        <?php endforeach ?>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
