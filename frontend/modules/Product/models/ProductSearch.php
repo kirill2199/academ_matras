@@ -17,8 +17,8 @@ class ProductSearch extends Product
     public function rules()
     {
         return [
-            [['id', 'quantity', 'reserved_quantity', 'category_id', 'warranty', 'status', 'in_stock', 'is_new', 'is_featured', 'is_sale', 'reviews_count', 'views_count', 'sales_count', 'min_order_quantity', 'max_order_quantity', 'step_order_quantity', 'created_at', 'updated_at', 'published_at'], 'integer'],
-            [['name', 'slug', 'sku', 'description', 'short_description', 'currency', 'main_image', 'images', 'brand', 'model', 'country', 'manufacturer', 'barcode', 'seo_title', 'seo_description', 'seo_keywords'], 'safe'],
+            [['id', 'description_id', 'short_description_id', 'quantity', 'reserved_quantity', 'category_id', 'warranty', 'status', 'in_stock', 'is_new', 'is_featured', 'is_sale', 'reviews_count', 'views_count', 'sales_count', 'min_order_quantity', 'max_order_quantity', 'step_order_quantity'], 'integer'],
+            [['name', 'slug', 'sku', 'currency', 'main_image', 'images', 'brand', 'model', 'country', 'manufacturer', 'barcode', 'seo_title', 'seo_description', 'seo_keywords', 'created_at', 'updated_at', 'published_at'], 'safe'],
             [['price', 'old_price', 'purchase_price', 'weight', 'length', 'width', 'height', 'volume', 'rating'], 'number'],
         ];
     }
@@ -40,7 +40,7 @@ class ProductSearch extends Product
      *
      * @return ActiveDataProvider
      */
-    public function search($params, $formName = null)
+    public function search($params, $slug=null, $formName = null)
     {
         $query = Product::find();
 
@@ -61,6 +61,8 @@ class ProductSearch extends Product
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'description_id' => $this->description_id,
+            'short_description_id' => $this->short_description_id,
             'price' => $this->price,
             'old_price' => $this->old_price,
             'purchase_price' => $this->purchase_price,
@@ -91,7 +93,7 @@ class ProductSearch extends Product
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'slug', $this->slug])
+            ->andFilterWhere(['like', 'slug', $slug])
             ->andFilterWhere(['like', 'sku', $this->sku])
             ->andFilterWhere(['like', 'currency', $this->currency])
             ->andFilterWhere(['like', 'main_image', $this->main_image])

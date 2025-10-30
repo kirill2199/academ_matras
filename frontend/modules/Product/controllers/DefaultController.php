@@ -34,16 +34,18 @@ class DefaultController extends Controller
     /**
      * Lists all Product models.
      *
+     * @param string $slug
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex($slug = null)
     {
         $searchModel = new ProductSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        $dataProvider = $searchModel->search(\Yii::$app->request->queryParams, $slug);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'currentSlug' => $slug,
         ]);
     }
 
