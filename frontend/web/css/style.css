@@ -2785,7 +2785,6 @@ button {
 
 .footer {
   margin-top: 10rem;
-  background: url("../images/homepage-one/footer-bg.webp");
   font-family: "League Spartan", sans-serif;
 }
 
@@ -2845,7 +2844,7 @@ button {
 
 .footer-section .footer-heading {
   font-size: 2rem;
-  color: #FFFFFF;
+  color: #797979;
 }
 
 .footer-section .footer-title {
@@ -6071,4 +6070,9 @@ table .ticket-row:hover {
   justify-content: center;
   font-size: 12px;
   font-weight: bold;
+}
+
+a {
+    text-decoration: none;    /* Убирает подчеркивание */
+    color: inherit;          /* Наследует цвет от родителя */
 }
