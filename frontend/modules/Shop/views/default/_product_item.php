@@ -8,7 +8,7 @@ use yii\helpers\Url;
 <div class="product-wrapper aos-init aos-animate" data-aos="fade-up">
     <div class="product-img">
         <?= Html::img(
-            $model->main_image ?: '/assets/images/placeholder.jpg',
+            $model->main_image ?: '/images/placeholder.jpg',
             [
                 'alt' => $model->name,
                 'class' => 'img-fluid'
