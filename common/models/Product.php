@@ -11,8 +11,8 @@ use Yii;
  * @property string $name
  * @property string $slug
  * @property string|null $sku
- * @property string|null $description
- * @property string|null $short_description
+ * @property int|null $description_id
+ * @property int|null $short_description_id
  * @property float $price
  * @property float|null $old_price
  * @property float|null $purchase_price
@@ -55,8 +55,11 @@ use Yii;
  * @property Cart[] $carts
  * @property Category $category
  * @property Characteristic[] $characteristics
+ * @property ProductDescription $description
  * @property OrderItem[] $orderItems
  * @property ProductCharacteristic[] $productCharacteristics
+ * @property ProductDescription $productDescription
+ * @property ProductDescription $shortDescription
  */
 class Product extends \yii\db\ActiveRecord
 {
@@ -76,15 +79,15 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['sku', 'description', 'short_description', 'old_price', 'purchase_price', 'weight', 'length', 'width', 'height', 'volume', 'main_image', 'images', 'brand', 'model', 'warranty', 'country', 'manufacturer', 'barcode', 'seo_title', 'seo_description', 'seo_keywords', 'max_order_quantity', 'published_at'], 'default', 'value' => null],
+            [['sku', 'description_id', 'short_description_id', 'old_price', 'purchase_price', 'weight', 'length', 'width', 'height', 'volume', 'main_image', 'images', 'brand', 'model', 'warranty', 'country', 'manufacturer', 'barcode', 'seo_title', 'seo_description', 'seo_keywords', 'max_order_quantity', 'published_at'], 'default', 'value' => null],
             [['currency'], 'default', 'value' => 'RUB'],
             [['sales_count'], 'default', 'value' => 0],
             [['step_order_quantity'], 'default', 'value' => 1],
             [['rating'], 'default', 'value' => 0.00],
             [['name', 'slug', 'price', 'category_id'], 'required'],
-            [['description', 'short_description', 'images'], 'string'],
+            [['description_id', 'short_description_id', 'quantity', 'reserved_quantity', 'category_id', 'warranty', 'status', 'in_stock', 'is_new', 'is_featured', 'is_sale', 'reviews_count', 'views_count', 'sales_count', 'min_order_quantity', 'max_order_quantity', 'step_order_quantity'], 'integer'],
             [['price', 'old_price', 'purchase_price', 'weight', 'length', 'width', 'height', 'volume', 'rating'], 'number'],
-            [['quantity', 'reserved_quantity', 'category_id', 'warranty', 'status', 'in_stock', 'is_new', 'is_featured', 'is_sale', 'reviews_count', 'views_count', 'sales_count', 'min_order_quantity', 'max_order_quantity', 'step_order_quantity'], 'integer'],
+            [['images'], 'string'],
             [['created_at', 'updated_at', 'published_at'], 'safe'],
             [['name', 'slug', 'brand', 'model', 'manufacturer', 'seo_title'], 'string', 'max' => 255],
             [['sku', 'country', 'barcode'], 'string', 'max' => 100],
@@ -93,6 +96,8 @@ class Product extends \yii\db\ActiveRecord
             [['slug'], 'unique'],
             [['sku'], 'unique'],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::class, 'targetAttribute' => ['category_id' => 'id']],
+            [['description_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProductDescription::class, 'targetAttribute' => ['description_id' => 'id']],
+            [['short_description_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProductDescription::class, 'targetAttribute' => ['short_description_id' => 'id']],
         ];
     }
 
@@ -106,8 +111,8 @@ class Product extends \yii\db\ActiveRecord
             'name' => 'Name',
             'slug' => 'Slug',
             'sku' => 'Sku',
-            'description' => 'Description',
-            'short_description' => 'Short Description',
+            'description_id' => 'Description ID',
+            'short_description_id' => 'Short Description ID',
             'price' => 'Price',
             'old_price' => 'Old Price',
             'purchase_price' => 'Purchase Price',
@@ -180,6 +185,16 @@ class Product extends \yii\db\ActiveRecord
     }
 
     /**
+     * Gets query for [[Description]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDescription()
+    {
+        return $this->hasOne(ProductDescription::class, ['id' => 'description_id']);
+    }
+
+    /**
      * Gets query for [[OrderItems]].
      *
      * @return \yii\db\ActiveQuery
@@ -197,6 +212,26 @@ class Product extends \yii\db\ActiveRecord
     public function getProductCharacteristics()
     {
         return $this->hasMany(ProductCharacteristic::class, ['product_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[ProductDescription]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProductDescription()
+    {
+        return $this->hasOne(ProductDescription::class, ['product_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[ShortDescription]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getShortDescription()
+    {
+        return $this->hasOne(ProductDescription::class, ['id' => 'short_description_id']);
     }
 
 }

@@ -93,8 +93,6 @@ class ProductSearch extends Product
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'slug', $this->slug])
             ->andFilterWhere(['like', 'sku', $this->sku])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'short_description', $this->short_description])
             ->andFilterWhere(['like', 'currency', $this->currency])
             ->andFilterWhere(['like', 'main_image', $this->main_image])
             ->andFilterWhere(['like', 'images', $this->images])

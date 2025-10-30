@@ -17,8 +17,8 @@ class m251029_131251_create_product_table extends Migration
             'name' => $this->string(255)->notNull(),
             'slug' => $this->string(255)->notNull()->unique(),
             'sku' => $this->string(100)->unique(), // артикул
-            'description' => $this->text(),
-            'short_description' => $this->text(),
+            'description_id' =>  $this->integer(),
+            'short_description_id' => $this->integer(),
             'price' => $this->decimal(10, 2)->notNull(),
             'old_price' => $this->decimal(10, 2),
             'purchase_price' => $this->decimal(10, 2), // закупочная цена
