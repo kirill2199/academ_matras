@@ -109,7 +109,7 @@
                 <div class="col-lg-3 col-sm-6">
                     <div class="footer-order">
                         <div class="logo">
-                            <img src="images/logos/footer-logo.webp" alt="logo">
+                            <img src="/images/logos/footer-logo.png" alt="logo">
                         </div>
                         <div class="footer-link order-link">
                             <ul>
