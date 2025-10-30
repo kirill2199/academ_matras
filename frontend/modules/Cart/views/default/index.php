@@ -9,9 +9,9 @@ use yii\widgets\ActiveForm;
         <div class="cart-section">
             <?php if (empty($cartItems)): ?>
                 <div class="empty-cart">
-                    <h3>Your cart is empty</h3>
-                    <p>Continue shopping to add items to your cart</p>
-                    <a href="<?= Url::to(['/product/default/index']) ?>" class="shop-btn">Continue Shopping</a>
+                    <h3>Ваша корзина пуста</h3>
+                    <p>Продолжите покупки и положите товар в корзину</p>
+                    <a href="<?= Url::to(['/shop/default/index']) ?>" class="shop-btn">Продолжить покупки</a>
                 </div>
             <?php else: ?>
                 <table>
@@ -47,7 +47,7 @@ use yii\widgets\ActiveForm;
                                 <td class="table-wrapper wrapper-product">
                                     <div class="wrapper">
                                         <div class="wrapper-img">
-                                            <?= Html::img($item->product->getImageUrl(), ['alt' => $item->product->name]) ?>
+                                            <?= Html::img(explode(',', $item->product->images)[0], ['alt' => $item->product->name]) ?>
                                         </div>
                                         <div class="wrapper-content">
                                             <h5 class="heading"><?= Html::encode($item->product->name) ?></h5>
@@ -101,9 +101,9 @@ use yii\widgets\ActiveForm;
                 </div>
 
                 <div class="wishlist-btn cart-btn">
-                    <a href="#" class="clean-btn" id="clear-cart">Clear Cart</a>
-                    <a href="<?= Url::to(['/product/default/index']) ?>" class="shop-btn">Continue Shopping</a>
-                    <a href="<?= Url::to(['/checkout/index']) ?>" class="shop-btn">Proceed to Checkout</a>
+                    <button class="clean-btn" id="clear-cart">Clear Cart</button>
+                    <a href="<?= Url::to(['/shop/default/index']) ?>" class="shop-btn">Продолжить покупки</a>
+                    <a href="<?= Url::to(['/shop-checkout/default/index']) ?>" class="shop-btn">Proceed to Checkout</a>
                 </div>
             <?php endif; ?>
         </div>
@@ -145,7 +145,7 @@ $this->registerJs(<<<JS
     });
     
     function updateCartItem(cartId, quantity) {
-        $.post('/cart/update', {
+        $.post('/shop-cart/default/update', {
             cart_id: cartId,
             quantity: quantity
         }, function(response) {
@@ -159,7 +159,7 @@ $this->registerJs(<<<JS
     }
     
     function deleteCartItem(cartId) {
-        $.post('/cart/delete', {
+        $.post('/shop-cart/default/delete', {
             cart_id: cartId
         }, function(response) {
             if (response.success) {
@@ -175,7 +175,7 @@ $this->registerJs(<<<JS
     
     function clearCart() {
         if (confirm('Are you sure you want to clear your cart?')) {
-            $.post('/cart/clear', function(response) {
+            $.post('/shop-cart/default/clear', function(response) {
                 if (response.success) {
                     location.reload();
                 } else {

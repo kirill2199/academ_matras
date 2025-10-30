@@ -3,6 +3,7 @@ use common\models\Category;
 use common\models\Menu;
 ?>
 <header id="header" class="header">
+      <?php $this->registerCsrfMetaTags() ?>
     <div class="header-top-section">
         <div class="container">
             <div class="header-top">
@@ -110,7 +111,7 @@ use common\models\Menu;
                         </a>
                     </div>
                     <div class="header-cart">
-                        <a href="cart.html" class="cart-item">
+                        <a href="/shop-cart/default/index" class="cart-item">
                             <span>
                                 <svg width="35" height="28" viewBox="0 0 35 28" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">

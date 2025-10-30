@@ -26,6 +26,13 @@ class DefaultController extends Controller
             ],
         ];
     }
+    public function beforeAction($action)
+    {
+        if (in_array($action->id, ['add', 'update', 'delete', 'clear', 'mini-cart'])) {
+            $this->enableCsrfValidation = false;
+        }
+        return parent::beforeAction($action);
+    }
 
     /**
      * Страница корзины
@@ -52,7 +59,8 @@ class DefaultController extends Controller
         $quantity = Yii::$app->request->post('quantity', 1);
         $attributes = Yii::$app->request->post('attributes');
         
-        $product = Product::findOne($productId);
+        $product = Product::findOne(['id'=>$productId]);
+
         if (!$product) {
             return ['success' => false, 'message' => 'Product not found'];
         }
