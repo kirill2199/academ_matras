@@ -1,0 +1,60 @@
+<?php
+
+use common\models\MenuItem;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\grid\ActionColumn;
+use yii\grid\GridView;
+
+/** @var yii\web\View $this */
+/** @var frontend\modules\MenuItem\models\MenuItemSearch $searchModel */
+/** @var yii\data\ActiveDataProvider $dataProvider */
+
+$this->title = 'Menu Items';
+$this->params['breadcrumbs'][] = $this->title;
+?>
+<div class="menu-item-index">
+
+    <h1><?= Html::encode($this->title) ?></h1>
+
+    <p>
+        <?= Html::a('Create Menu Item', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
+
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+
+            'id',
+            'menu_id',
+            'parent_id',
+            'title',
+            'url:url',
+            //'route',
+            //'params:ntext',
+            //'icon',
+            //'target',
+            //'rel',
+            //'css_class',
+            //'description:ntext',
+            //'sort_order',
+            //'status',
+            //'created_at',
+            //'updated_at',
+            //'category_id',
+            //'item_type',
+            [
+                'class' => ActionColumn::className(),
+                'urlCreator' => function ($action, MenuItem $model, $key, $index, $column) {
+                    return Url::toRoute([$action, 'id' => $model->id]);
+                 }
+            ],
+        ],
+    ]); ?>
+
+
+</div>
