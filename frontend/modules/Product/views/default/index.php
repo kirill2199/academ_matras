@@ -182,7 +182,7 @@ use yii\helpers\Html;
                                     if (in_array($key, $arrayProver)){
                                 ?>
                                 <li>
-                                    <p><?=self::attributeLabels()[$key]?> : <?= $value?></p>
+                                    <p><?=$productArray['attributeLabels'][$key]?> : <?= $value?></p>
                                 </li>
                                 <?php }}?>
                             </ul>

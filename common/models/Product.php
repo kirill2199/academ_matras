@@ -51,6 +51,7 @@ use Yii;
  * @property string $created_at
  * @property string $updated_at
  * @property string|null $published_at
+ * @property string|null $reviews
  *
  * @property Cart[] $carts
  * @property Category $category
@@ -87,7 +88,7 @@ class Product extends \yii\db\ActiveRecord
             [['name', 'slug', 'price', 'category_id'], 'required'],
             [['description_id', 'short_description_id', 'quantity', 'reserved_quantity', 'category_id', 'warranty', 'status', 'in_stock', 'is_new', 'is_featured', 'is_sale', 'reviews_count', 'views_count', 'sales_count', 'min_order_quantity', 'max_order_quantity', 'step_order_quantity'], 'integer'],
             [['price', 'old_price', 'purchase_price', 'weight', 'length', 'width', 'height', 'volume', 'rating'], 'number'],
-            [['images'], 'string'],
+            [['images', 'reviews'], 'string'],
             [['created_at', 'updated_at', 'published_at'], 'safe'],
             [['name', 'slug', 'brand', 'model', 'manufacturer', 'seo_title'], 'string', 'max' => 255],
             [['sku', 'country', 'barcode'], 'string', 'max' => 100],
@@ -151,6 +152,7 @@ class Product extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'published_at' => 'Published At',
+            'reviews'=> 'reviews',
         ];
     }
 
@@ -261,6 +263,49 @@ class Product extends \yii\db\ActiveRecord
         }
 
         return $uniqueSizes;
+    }
+    /**
+     * Получает отзывы товара
+     */
+    public function getProductReviews()
+    {
+        return $this->hasMany(Review::class, ['product_id' => 'id'])
+            ->where(['status' => Review::STATUS_APPROVED])
+            ->orderBy(['published_at' => SORT_DESC]);
+    }
+
+    /**
+     * Получает опубликованные отзывы из строки reviews
+     */
+    public function getReviewsFromString()
+    {
+        return Review::getReviewsByIdsString($this->reviews);
+    }
+
+    /**
+     * Получает средний рейтинг товара
+     */
+    public function getAverageRating()
+    {
+        return $this->getProductReviews()->average('rating') ?: 0;
+    }
+
+    /**
+     * Получает количество отзывов
+     */
+    public function getReviewsCount()
+    {
+        return $this->getProductReviews()->count();
+    }
+
+    /**
+     * Обновляет поле reviews с ID отзывов
+     */
+    public function updateReviewsField()
+    {
+        $reviewIds = $this->getProductReviews()->select('id')->column();
+        $this->reviews = !empty($reviewIds) ? implode(',', $reviewIds) : null;
+        return $this->save(false);
     }
 
 }

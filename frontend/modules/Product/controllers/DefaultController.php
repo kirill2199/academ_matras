@@ -53,6 +53,7 @@ class DefaultController extends Controller
         $productArray['rating'] = self::renderRatingStars($productArray['rating']);
         $productArray['category_name'] = $model->category->name;
         $productArray['filter'] = Product::getUniqueSizesByCategory($model->category_id);
+        $productArray['attributeLabels'] = $model->attributeLabels();
         return $this->render('index', [
             'productArray' => $productArray
         ]);
