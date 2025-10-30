@@ -21,7 +21,7 @@
             <div class="header-center">
                 <div class="logo">
                     <a href="/">
-                        <img src="images/logos/logoV5.png" alt="logo">
+                        <img src="/images/logos/logoV5.png" alt="logo">
                     </a>
                 </div>
                 <div class="header-cart-items">
@@ -270,7 +270,7 @@
                 </span>
             </button>
             <a href="/" class="mobile-header-logo">
-                <img src="images/logos/logoV5.png" alt="logo">
+                <img src="/images/logos/logoV5.png" alt="logo">
             </a>
             <a href="cart.html" class="header-cart cart-item">
                 <span>
