@@ -960,8 +960,8 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="/shop-category/default/index">
-                                <span class="list-text">Category</span>
+                            <a href="/shop-product/default/index">
+                                <span class="list-text">Products</span>
                             </a>
                         </li>
                         <li class="mega-menu">
