@@ -329,4 +329,193 @@ class Menu extends \yii\db\ActiveRecord
             ';
         }
     }
+    /**
+     * Получает меню в подвале в виде HTML
+     */
+    public static function getFooterMenu()
+    {
+        $menu = self::find()
+            ->where(['slug' => 'footer-menu', 'status' => 1])
+            ->one();
+
+        if (!$menu) {
+            return self::getDefaultFooterMenu();
+        }
+
+        // Получаем корневые пункты меню
+        $items = MenuItem::find()
+            ->where([
+                'menu_id' => $menu->id,
+                'status' => 1,
+                'parent_id' => null
+            ])
+            ->orderBy(['sort_order' => SORT_ASC])
+            ->all();
+
+        return self::renderFooterMenu($items);
+    }
+
+    /**
+     * Рендерит меню в подвале в HTML
+     */
+    private static function renderFooterMenu($items)
+    {
+        if (empty($items)) {
+            return self::getDefaultFooterMenu();
+        }
+
+        $html = '';
+
+        foreach ($items as $item) {
+            $hasChildren = MenuItem::find()
+                ->where(['parent_id' => $item->id, 'status' => 1])
+                ->exists();
+
+            $html .= '<div class="col-lg-3 col-sm-6">';
+            $html .= '<div class="about-us">';
+            
+            // Заголовок раздела
+            $html .= '<h4 class="footer-heading footer-title">';
+            $html .= htmlspecialchars($item->title);
+            $html .= '</h4>';
+            
+            // Ссылки раздела
+            $html .= '<div class="footer-link about-link">';
+            $html .= '<ul>';
+
+            if ($hasChildren) {
+                $children = MenuItem::find()
+                    ->where(['parent_id' => $item->id, 'status' => 1])
+                    ->orderBy(['sort_order' => SORT_ASC])
+                    ->all();
+                
+                foreach ($children as $child) {
+                    $url = self::getItemUrl($child);
+                    $html .= '<li><a href="' . $url . '">' . htmlspecialchars($child->title) . '</a></li>';
+                }
+            } else {
+                // Если нет подпунктов, показываем сам пункт как ссылку
+                $url = self::getItemUrl($item);
+                $html .= '<li><a href="' . $url . '">' . htmlspecialchars($item->title) . '</a></li>';
+            }
+
+            $html .= '</ul>';
+            $html .= '</div>'; // .footer-link.about-link
+            $html .= '</div>'; // .about-us
+            $html .= '</div>'; // .col-lg-3.col-sm-6
+        }
+
+        return $html;
+    }
+
+
+    /**
+     * Дефолтное меню в подвале если нет в базе
+     */
+    private static function getDefaultFooterMenu()
+    {
+        return '
+            <div class="col-lg-3 col-sm-6">
+                <div class="about-us">
+                    <h4 class="footer-heading footer-title">
+                        About Us
+                    </h4>
+                    <div class="footer-link about-link">
+                        <ul>
+                            <li><a href="/site/about">Our Story</a></li>
+                            <li><a href="/site/careers">Work With Us</a></li>
+                            <li><a href="/site/news">Corporate News</a></li>
+                            <li><a href="/site/investors">Investors</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="about-us">
+                    <h4 class="footer-heading footer-title">
+                        Customer Service
+                    </h4>
+                    <div class="footer-link about-link">
+                        <ul>
+                            <li><a href="/site/contact">Contact Us</a></li>
+                            <li><a href="/site/shipping">Shipping Info</a></li>
+                            <li><a href="/site/returns">Returns</a></li>
+                            <li><a href="/site/faq">FAQ</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="about-us">
+                    <h4 class="footer-heading footer-title">
+                        Quick Links
+                    </h4>
+                    <div class="footer-link about-link">
+                        <ul>
+                            <li><a href="/product/sale">Special Offers</a></li>
+                            <li><a href="/product/new">New Arrivals</a></li>
+                            <li><a href="/product/bestsellers">Bestsellers</a></li>
+                            <li><a href="/site/sitemap">Site Map</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="about-us">
+                    <h4 class="footer-heading footer-title">
+                        Policies
+                    </h4>
+                    <div class="footer-link about-link">
+                        <ul>
+                            <li><a href="/site/privacy">Privacy Policy</a></li>
+                            <li><a href="/site/terms">Terms of Use</a></li>
+                            <li><a href="/site/security">Security</a></li>
+                            <li><a href="/site/accessibility">Accessibility</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        ';
+    }
+
+    /**
+     * Получает меню в подвале по конкретному slug
+     */
+    public static function getFooterMenuBySlug($slug)
+    {
+        $menu = self::find()
+            ->where(['slug' => $slug, 'status' => 1])
+            ->one();
+
+        if (!$menu) {
+            return '';
+        }
+
+        $items = MenuItem::find()
+            ->where([
+                'menu_id' => $menu->id,
+                'status' => 1,
+                'parent_id' => null
+            ])
+            ->orderBy(['sort_order' => SORT_ASC])
+            ->all();
+
+        $html = '<div class="col-lg-3 col-sm-6">';
+        $html .= '<div class="about-us">';
+        $html .= '<h4 class="footer-heading footer-title">' . htmlspecialchars($menu->name) . '</h4>';
+        $html .= '<div class="footer-link about-link">';
+        $html .= '<ul>';
+
+        foreach ($items as $item) {
+            $url = self::getItemUrl($item);
+            $html .= '<li><a href="' . $url . '">' . htmlspecialchars($item->title) . '</a></li>';
+        }
+
+        $html .= '</ul>';
+        $html .= '</div>';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        return $html;
+    }
 }
