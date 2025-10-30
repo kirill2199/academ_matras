@@ -2419,6 +2419,7 @@ button {
 }
 
 .footer {
+  margin-top: 10rem;
   background: url("../images/homepage-one/footer-bg.webp");
   font-family: "League Spartan", sans-serif;
 }

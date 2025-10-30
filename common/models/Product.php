@@ -233,5 +233,34 @@ class Product extends \yii\db\ActiveRecord
     {
         return $this->hasOne(ProductDescription::class, ['id' => 'short_description_id']);
     }
+    /**
+     * Получает уникальные размеры для категории товаров
+     * @param int $categoryId ID категории
+     * @return array Массив размеров ['3x3x5' => ['length' => 3, 'width' => 3, 'height' => 5]]
+     */
+    public static function getUniqueSizesByCategory($categoryId)
+    {
+        $sizes = Product::find()
+            ->where(['category_id' => $categoryId])
+            ->andWhere(['IS NOT', 'length', null])
+            ->andWhere(['IS NOT', 'width', null])
+            ->andWhere(['IS NOT', 'height', null])
+            ->andWhere(['>', 'length', 0])
+            ->andWhere(['>', 'width', 0])
+            ->andWhere(['>', 'height', 0])
+            ->andWhere(['status' => 1]) // только активные товары
+            ->distinct()
+            ->orderBy(['length' => SORT_ASC, 'width' => SORT_ASC, 'height' => SORT_ASC])
+            ->all();
+
+        $uniqueSizes = [];
+        
+        foreach ($sizes as $size) {
+            $key = (int)$size['length'] . 'x' . (int)$size['width'] . 'x' . (int)$size['height'];
+            $uniqueSizes[$key] = (int)$size['length'] . 'x' . (int)$size['width'] . 'x' . (int)$size['height'];
+        }
+
+        return $uniqueSizes;
+    }
 
 }

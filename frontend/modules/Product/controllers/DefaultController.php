@@ -39,98 +39,58 @@ class DefaultController extends Controller
      */
     public function actionIndex($slug = null)
     {
-        $searchModel = new ProductSearch();
-        $dataProvider = $searchModel->search(\Yii::$app->request->queryParams, $slug);
+        $model = Product::findOne(['slug' => $slug]);
+        if (!$model) {
+            throw new NotFoundHttpException();
 
+        }
+        $productArray = $model->toArray();
+        $productArray['images'] = explode(',', $productArray['images']);
+        if ($model->description_id) {
+            $productArray['description'] = $model->description->description;
+            $productArray['short_description'] = $model->description->short_description;
+        }
+        $productArray['rating'] = self::renderRatingStars($productArray['rating']);
+        $productArray['category_name'] = $model->category->name;
+        $productArray['filter'] = Product::getUniqueSizesByCategory($model->category_id);
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'currentSlug' => $slug,
+            'productArray' => $productArray
         ]);
     }
-
     /**
-     * Displays a single Product model.
-     * @param int $id ID
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
+     * Генерирует SVG звезды рейтинга
+     * @param float $rating Рейтинг от 0 до 5
+     * @return string HTML код с звездами
      */
-    public function actionView($id)
+    private function renderRatingStars($rating)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
+        $fullStars = floor($rating); // Целые звезды
+        $hasHalfStar = ($rating - $fullStars) >= 0.5; // Половина звезды
+        $emptyStars = 5 - $fullStars - ($hasHalfStar ? 1 : 0); // Пустые звезды
 
-    /**
-     * Creates a new Product model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
-     */
-    public function actionCreate()
-    {
-        $model = new Product();
+        $starsHtml = '';
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        } else {
-            $model->loadDefaultValues();
+        // Полные звезды
+        for ($i = 0; $i < $fullStars; $i++) {
+            $starsHtml .= '<svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7.5 0L9.18386 5.18237H14.6329L10.2245 8.38525L11.9084 13.5676L7.5 10.3647L3.09161 13.5676L4.77547 8.38525L0.367076 5.18237H5.81614L7.5 0Z" fill="#FFA800"></path>
+        </svg>';
         }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Updates an existing Product model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $id ID
-     * @return string|\yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        // Половина звезды
+        if ($hasHalfStar) {
+            $starsHtml .= '<svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7.5 0L9.18386 5.18237H14.6329L10.2245 8.38525L11.9084 13.5676L7.5 10.3647L3.09161 13.5676L4.77547 8.38525L0.367076 5.18237H5.81614L7.5 0Z" fill="#FFA800" fill-opacity="0.5"></path>
+        </svg>';
         }
 
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Deletes an existing Product model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id ID
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the Product model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id ID
-     * @return Product the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Product::findOne(['id' => $id])) !== null) {
-            return $model;
+        // Пустые звезды
+        for ($i = 0; $i < $emptyStars; $i++) {
+            $starsHtml .= '<svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7.5 0L9.18386 5.18237H14.6329L10.2245 8.38525L11.9084 13.5676L7.5 10.3647L3.09161 13.5676L4.77547 8.38525L0.367076 5.18237H5.81614L7.5 0Z" fill="#E0E0E0"></path>
+        </svg>';
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        return $starsHtml;
     }
 }
