@@ -42,6 +42,25 @@ return [
             'class' => \yii\gii\Module::class,
             'allowedIPs' => ['127.0.0.1', '::1', '*'], // Убедитесь что ваш IP разрешен
         ],
+        'shop-category' => [
+            'class' => 'backend\modules\Category\Category',
+            // ... другие настройки модуля ...
+        ],
+        'shop-product' => [
+            'class' => 'backend\modules\Product\Product',
+            // ... другие настройки модуля ...
+        ],
+        // 'shop-cart' => [
+        //     'class' => 'backend\modules\Cart\Cart',
+        //     'controllerNamespace' => 'backend\modules\Cart\controllers', // явно укажите namespace
+        // ],
+        // 'shop-order' => [
+        //     'class' => 'backend\modules\Order\Order',
+        // ],
+        // 'shop' => [
+        //     'class' => 'backend\modules\Shop\Shop',
+        //     // ... другие настройки модуля ...
+        // ],
     ],
     'components' => [
         'request' => [
