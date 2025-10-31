@@ -174,7 +174,7 @@ class DefaultController extends Controller
                         $transaction->commit();
                     } else {
                         $transaction->rollBack();
-                        Yii::$app->session->setFlash('error', 'Ошибка при очистки корзины: ' . $e->getMessage());
+                        Yii::$app->session->setFlash('error', 'Ошибка при очистки корзины');
                         return $this->redirect(['checkout']);
                     }
 
