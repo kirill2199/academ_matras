@@ -103,7 +103,7 @@ use yii\widgets\ActiveForm;
                 <div class="wishlist-btn cart-btn">
                     <button class="clean-btn" id="clear-cart">Clear Cart</button>
                     <a href="<?= Url::to(['/shop/default/index']) ?>" class="shop-btn">Продолжить покупки</a>
-                    <a href="<?= Url::to(['/shop-checkout/default/index']) ?>" class="shop-btn">Proceed to Checkout</a>
+                    <a href="<?= Url::to(['/shop-order/default/checkout']) ?>" class="shop-btn">Оформить заказ</a>
                 </div>
             <?php endif; ?>
         </div>

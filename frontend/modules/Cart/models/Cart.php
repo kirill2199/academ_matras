@@ -147,4 +147,27 @@ class Cart extends \yii\db\ActiveRecord
         }
         return false;
     }
+    public static function clearCart()
+    {
+        // Реализация очистки корзины в зависимости от вашей структуры
+        return Cart::deleteAll(Cart::getCartIdentifier());
+    }
+
+    /**
+     * Получает идентификатор корзины (user_id или session_id)
+     */
+    public static function getCartIdentifier()
+    {
+        $user = Yii::$app->user;
+        $session = Yii::$app->session;
+
+        if (!$user->isGuest) {
+            return ['user_id' => $user->id];
+        } else {
+            if (!$session->has('cart_session_id')) {
+                $session->set('cart_session_id', Yii::$app->security->generateRandomString(32));
+            }
+            return ['session_id' => $session->get('cart_session_id')];
+        }
+    }
 }

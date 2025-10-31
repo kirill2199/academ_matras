@@ -67,6 +67,9 @@ return [
             'class' => 'frontend\modules\Cart\Cart',
             'controllerNamespace' => 'frontend\modules\Cart\controllers', // явно укажите namespace
         ],
+        'shop-order' => [
+            'class' => 'frontend\modules\Order\Order',
+        ],
         'shop' => [
             'class' => 'frontend\modules\Shop\Shop',
             // ... другие настройки модуля ...

@@ -71,7 +71,7 @@ class DefaultController extends Controller
         }
         
         // Получаем идентификатор корзины
-        $cartIdentifier = $this->getCartIdentifier();
+        $cartIdentifier = Cart::getCartIdentifier();
         
         // Проверяем, есть ли уже такой товар в корзине
         $existingCartItem = Cart::find()
@@ -129,7 +129,7 @@ class DefaultController extends Controller
         
         $cartItem = Cart::find()
             ->where(['id' => $cartId])
-            ->andWhere($this->getCartIdentifier())
+            ->andWhere(Cart::getCartIdentifier())
             ->one();
         
         if (!$cartItem) {
@@ -175,7 +175,7 @@ class DefaultController extends Controller
         
         $cartItem = Cart::find()
             ->where(['id' => $id])
-            ->andWhere($this->getCartIdentifier())
+            ->andWhere(Cart::getCartIdentifier())
             ->one();
         
         if ($cartItem && $cartItem->delete()) {
@@ -197,7 +197,7 @@ class DefaultController extends Controller
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         
-        $deleted = Cart::deleteAll($this->getCartIdentifier());
+        $deleted = Cart::deleteAll(Cart::getCartIdentifier());
         
         if ($deleted) {
             return [
@@ -211,23 +211,7 @@ class DefaultController extends Controller
         return ['success' => false, 'message' => 'Error clearing cart'];
     }
 
-    /**
-     * Получает идентификатор корзины (user_id или session_id)
-     */
-    private function getCartIdentifier()
-    {
-        $user = Yii::$app->user;
-        $session = Yii::$app->session;
-        
-        if (!$user->isGuest) {
-            return ['user_id' => $user->id];
-        } else {
-            if (!$session->has('cart_session_id')) {
-                $session->set('cart_session_id', Yii::$app->security->generateRandomString(32));
-            }
-            return ['session_id' => $session->get('cart_session_id')];
-        }
-    }
+    
 
     /**
      * Мини-корзина для AJAX обновления
