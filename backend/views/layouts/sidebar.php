@@ -23,7 +23,9 @@
                     ['label' => 'Магазин', 'header' => true],
                     ['label' => 'Товары',  'icon' => 'th', 'url' => ['/shop-product/default/index']],
                     ['label' => 'Категории товаров',  'icon' => 'th', 'url' => ['/shop-category/default/index']],
-                    
+                    ['label' => 'Основное меню',  'icon' => 'th', 'url' => ['/shop-menu/default/index']],
+                    ['label' => 'Дополнительное меню',  'icon' => 'th', 'url' => ['/shop-menu-item/default/index']],
+
                     ['label' => 'Настройки', 'header' => true],
                     ['label' => 'Gii',  'icon' => 'file-code', 'url' => ['/gii'], 'target' => '_blank'],
                     ['label' => 'Debug', 'icon' => 'bug', 'url' => ['/debug'], 'target' => '_blank'],

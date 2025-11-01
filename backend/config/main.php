@@ -50,10 +50,12 @@ return [
             'class' => 'backend\modules\Product\Product',
             // ... другие настройки модуля ...
         ],
-        // 'shop-cart' => [
-        //     'class' => 'backend\modules\Cart\Cart',
-        //     'controllerNamespace' => 'backend\modules\Cart\controllers', // явно укажите namespace
-        // ],
+        'shop-menu' => [
+            'class' => 'backend\modules\Menu\Menu',
+        ],
+        'shop-menu-item' => [
+            'class' => 'backend\modules\MenuItem\MenuItem',
+        ],
         // 'shop-order' => [
         //     'class' => 'backend\modules\Order\Order',
         // ],
